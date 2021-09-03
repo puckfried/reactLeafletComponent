@@ -4,7 +4,7 @@ import Header from './Header';
 import MapWrapper from './mapWrapper';
 
 function App() {
-  const [country, setCountry] = useState('')
+  const [country, setCountry] = useState('Spain')
   const [mapStyle, setMapStyle] = useState('topo')
 
   return (

@@ -17,16 +17,16 @@ export default function Header(props) {
     return (
         <div className="header">
             <h3>{country.length<1 ? 'Select a country' : `${country} selected`} </h3>
-            <select onChange={(e) => selectCountry(e)} name="country" id="countrySelect">
-                {capitals.features.map( element => {
+            <select value={country} onChange={(e) => selectCountry(e)} name="country" id="countrySelect">
+                {capitals.features.map( (element,index) => {
                     const mapCountry = element.properties.country
                     return(
-                        <option value={mapCountry}selected={country === mapCountry ? true : false}>{mapCountry}</option>
+                        <option key={index} value={mapCountry}>{mapCountry}</option>
                     )
                 })}
 
             </select>
-            <select onChange={(e) => selectMap(e)} name="Map Style">
+            <select defaultValue='topo' onChange={(e) => selectMap(e)} name="Map Style">
                 <option value="osm">OSM Standard</option>
                 <option value="hot">Huminatarian</option>
                 <option value="topo" selected>Topos Style</option>

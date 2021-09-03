@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { Map, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import { Map, TileLayer, Polygon } from 'react-leaflet'
 import countries from './data/countries.geo.json'
 import capitals from './data/capitals.geo.json'
 import L from 'leaflet'
 
 export default function MapWrapper(props) {
     const [border, setBorder] = useState([])
-    const [polyColor, setPolyColor] = useState('red')
+    const polyColor = 'red'
     const [mapCenter, setMapCenter] = useState([51.505, -0.09])
     const {country, setCountry, mapStyle} = props
    
@@ -52,7 +52,7 @@ export default function MapWrapper(props) {
         setBorder(() => latLngs)  
     }
 
-    const changeCenter = () => {
+    const changeCenter = (country) => {
         const newCenter = capitals.features.filter(element => element.properties.country === country )
         let coordinates = newCenter[0].geometry.coordinates
         const fixedCoord = coordinates.reverse()
@@ -66,7 +66,7 @@ export default function MapWrapper(props) {
 
     useEffect(()=> {
         fetchBorder(country)
-        changeCenter()
+        changeCenter(country)
         },[country])
 
 
