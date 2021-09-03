@@ -65,8 +65,13 @@ There are 2 basic states:
 * <code>border</code>
  
 The <code>country</code> state can be used for further data fetching connected with country names. Right now the <code>country</code> state is connected with <code>border</code> state, every change triggers an useEffect hook and selects the coordinates from 2 different geo.json files a) for borders (an polygon) and b) for centering the map at the countries capital (single point). The country names are fetched, using [Nominatim](https://wiki.openstreetmap.org/wiki/Nominatim) search API. There is the possibility to fetch the coordinates for the borders too, but they were quiet detailed so speed was suffering. Right now the coordinates are mananged by low resolution geo.JSON files.
-For using coordinates from geo.json files in Leaflet the arrays have to be reversed. The method <code>L.GeoJSON.coordsToLatLngs(coordinates,1)</code> is used for this. The last parameters defines the depth of the array, depending if the borders are polygones (<code>1</code>) or multi-polygones (<code>2</code>). For the point coordinates of capitals <code>Array.reverse()</code> is sufficent.
+For using coordinates from geo.json files in Leaflet the arrays have to be reversed. The method <code>L.GeoJSON.coordsToLatLngs(coordinates,1)</code> is used for this. The last parameters defines the depth of the array, depending if the borders are polygones (<code>1</code>) or multi-polygones (<code>2</code>).
   
+#### Known Issues
+* Sometimes centering is not working properly
+* react-leaflet still in version 2.7. as there were problems with newer versions
+* country names from OSM are probably not 100% similar with geo.json country names, some were fixed but never checked the whole list, feel free to click through and report
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
