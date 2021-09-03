@@ -68,7 +68,7 @@ The <code>country</code> state can be used for further data fetching connected w
 For using coordinates from geo.json files in Leaflet the arrays have to be reversed. The method <code>L.GeoJSON.coordsToLatLngs(coordinates,1)</code> is used for this. The last parameters defines the depth of the array, depending if the borders are polygones (<code>1</code>) or multi-polygones (<code>2</code>).
   
 #### Known Issues
-* Sometimes centering is not working properly
+* ~~Sometimes centering is not working properly~~
 * react-leaflet still in version 2.7. as there were problems with newer versions
 * country names from OSM are probably not 100% similar with geo.json country names, some were fixed but never checked the whole list, feel free to click through and report
 
