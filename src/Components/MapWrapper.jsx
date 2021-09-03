@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Map, TileLayer, Polygon } from 'react-leaflet'
-import countries from './data/countries.geo.json'
-import capitals from './data/capitals.geo.json'
+import countries from '../data/countries.geo.json'
+import capitals from '../data/capitals.geo.json'
 import L from 'leaflet'
 
 export default function MapWrapper(props) {
@@ -18,15 +18,11 @@ export default function MapWrapper(props) {
             //get english country name 
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=3&accept-language=en`)
             const dataEn = await res.json()
-            //get german country name
-            // const resDe = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=3&accept-language=de`)
-            // const dataDe = await resDe.json()
             
             //function for calculating borders
             await fetchBorder(dataEn.address.country)
-            
             //setting the country state for further use
-            await fetchInfos(dataEn.address.country)
+            await setCountry(() => dataEn.address.country)
         }
         catch(error){
             return error
@@ -35,7 +31,6 @@ export default function MapWrapper(props) {
     
     // getting polygon coordinates of the country
     const fetchBorder = async (country = 'France') => {
-        //Defining variables
         let latLngs =[]
         let coordinates = []
         let type = 'Polygon'
@@ -45,24 +40,27 @@ export default function MapWrapper(props) {
         if (filter[0]){
             type = filter[0].geometry.type
             coordinates = filter[0].geometry.coordinates
-        }
+        
         //change postion of coordinates using build in method of leaflet with specified depth of the array 
         if (type === 'Polygon') latLngs = L.GeoJSON.coordsToLatLngs(coordinates,1);
         else if (type === 'MultiPolygon') latLngs = L.GeoJSON.coordsToLatLngs(coordinates,2);
         setBorder(() => latLngs)  
-    }
+    }}
 
+    // Centering the map when the country changes
     const changeCenter = (country) => {
         const newCenter = capitals.features.filter(element => element.properties.country === country )
-        let coordinates = newCenter[0].geometry.coordinates
-        const fixedCoord = coordinates.reverse()
-        setMapCenter(() => fixedCoord)
+        if (newCenter.length>0){
+            let coordinates = newCenter[0].geometry.coordinates
+            const fixedCoord = coordinates.reverse()
+            setMapCenter(() => fixedCoord)
+            //Something is wrong here, sometimes countries not centering properly
+        }
+        else {
+            console.log('Something is wrong with centering ', country,' the json found is',newCenter) 
+        }
     }
 
-    //example function for further use   
-    const fetchInfos = async (countryEn) => {
-        setCountry(() => countryEn )
-    }
 
     useEffect(()=> {
         fetchBorder(country)
@@ -72,7 +70,6 @@ export default function MapWrapper(props) {
 
     return (
         <>
-            {/* <h3> Map the news for {country} </h3> */}
             <Map center={mapCenter} zoom={4} scrollWheelZoom={false}
             style={{width: "100vw", height: "100vh"}}
              onClick={(e) => fetchCountry(e)}

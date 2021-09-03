@@ -1,5 +1,6 @@
 import React from 'react'
-import capitals from './data/capitals.geo.json'
+import countries from '../data/countries.geo.json'
+
 
 export default function Header(props) {
   
@@ -12,14 +13,13 @@ export default function Header(props) {
     const selectCountry = (e) =>{
     setCountry(() => e.target.value)
     }
-
-    
+  
     return (
         <div className="header">
             <h3>{country.length<1 ? 'Select a country' : `${country} selected`} </h3>
             <select value={country} onChange={(e) => selectCountry(e)} name="country" id="countrySelect">
-                {capitals.features.map( (element,index) => {
-                    const mapCountry = element.properties.country
+                {countries.features.map( (element,index) => {
+                    const mapCountry = element.properties.name
                     return(
                         <option key={index} value={mapCountry}>{mapCountry}</option>
                     )

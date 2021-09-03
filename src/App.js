@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useState} from 'react';
-import Header from './Header';
-import MapWrapper from './mapWrapper';
+import Header from './Components/Header';
+import MapWrapper from './Components/MapWrapper';
 
 function App() {
   const [country, setCountry] = useState('Spain')
@@ -11,7 +11,6 @@ function App() {
     <div className="App">
       <Header country={country} setCountry={setCountry} setMapStyle={setMapStyle} /> 
       <MapWrapper country={country} setCountry={setCountry} mapStyle={mapStyle} />
-      <div className='absolute'><h1>I am a absolute text</h1></div>
     </div>
   );
 }
