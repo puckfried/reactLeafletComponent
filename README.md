@@ -70,7 +70,7 @@ For using coordinates from geo.json files in Leaflet the arrays have to be rever
 #### Known Issues
 * ~~Sometimes centering is not working properly~~
 * react-leaflet still in version 2.7. as there were problems with newer versions
-* country names from OSM are probably not 100% similar with geo.json country names, some were fixed but never checked the whole list, feel free to click through and report
+* country names from OSM are probably not 100% similar with geo.json country names, in this rare cases centering or borders are not working, most are fixed but I never checked the whole list, feel free to click through and report
 
 ## License
 
