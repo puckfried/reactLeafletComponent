@@ -1,3 +1,18 @@
 .App {
   text-align: center;
 }
+
+.header {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  position: absolute;
+  z-index: 999;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}

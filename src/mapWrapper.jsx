@@ -1,111 +1,94 @@
 import React, {useState, useEffect} from 'react'
 import { Map, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
 import countries from './data/countries.geo.json'
+import capitals from './data/capitals.geo.json'
 import L from 'leaflet'
 
-export default function MapWrapper() {
+export default function MapWrapper(props) {
     const [border, setBorder] = useState([])
+    const [polyColor, setPolyColor] = useState('red')
+    const [mapCenter, setMapCenter] = useState([51.505, -0.09])
+    const {country, setCountry, mapStyle} = props
+   
 
-    const mapClick = (e) => {
+    //Using OSM nominatim for fetching clicked country
+    const fetchCountry = async (e) => {
         const {lat, lng} = (e.latlng)
-        fetchCountry(lat, lng)
-    }
-    
-    const fetchCountry = async (lat,lng) => {
         try{
+            //get english country name 
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=3&accept-language=en`)
-            const data = await res.json()
-            // setResult(() => data)
-            await takeCountry(data)
+            const dataEn = await res.json()
+            //get german country name
+            // const resDe = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=3&accept-language=de`)
+            // const dataDe = await resDe.json()
+            
+            //function for calculating borders
+            await fetchBorder(dataEn.address.country)
+            
+            //setting the country state for further use
+            await fetchInfos(dataEn.address.country)
         }
         catch(error){
             return error
         }
     }
-
-    const takeCountry = async (country) => {
-        console.log('From Nominatim and handed over: ', country.address.country)
-        fetchBorder(country.address.country)
-    }
-
+    
+    // getting polygon coordinates of the country
     const fetchBorder = async (country = 'France') => {
+        //Defining variables
         let latLngs =[]
         let coordinates = []
-        let countryCode = require(`./data/countries/DEU.geo.json`) 
         let type = 'Polygon'
+
+        // Filter geo.json list of countries
         const filter = countries.features.filter( element => element.properties.name === country)
-        console.log('Filter gaves me this back: ', filter)
         if (filter[0]){
-            console.log('I filtered from country list: ',filter[0].id)
-            console.log('I filtered type from country list: ',filter[0].geometry.type)
             type = filter[0].geometry.type
             coordinates = filter[0].geometry.coordinates
-            // countryCode = require(`./data/countries/${filter[0].id}.geo.json`) 
         }
-        try{
-            // const res = await fetch(`https://nominatim.openstreetmap.org/search?country=${country}&polygon_geojson=1&format=json`)
-            // const res = await fetch(`./data/FIN.json`)
-            // console.log(res)
-            // const data = await res.json()
-            if (type === 'Polygon'){
-                latLngs = await L.GeoJSON.coordsToLatLngs(coordinates,1);
-            }
-            else if(type === 'MultiPolygon') {
-                latLngs = await L.GeoJSON.coordsToLatLngs(coordinates,2);
-            }
-             
-            console.log('In external JSON I found this data and transformed it: ',latLngs)
-            // const latLngs = await L.GeoJSON.coordsToLatLngs(data[0].geojson.coordinates,1); 
-          
-            await setBorder(() => {
-                 return latLngs
-             })  
- 
-        }
-        catch(error){
-            return error
-        }
+        //change postion of coordinates using build in method of leaflet with specified depth of the array 
+        if (type === 'Polygon') latLngs = L.GeoJSON.coordsToLatLngs(coordinates,1);
+        else if (type === 'MultiPolygon') latLngs = L.GeoJSON.coordsToLatLngs(coordinates,2);
+        setBorder(() => latLngs)  
     }
 
+    const changeCenter = () => {
+        const newCenter = capitals.features.filter(element => element.properties.country === country )
+        let coordinates = newCenter[0].geometry.coordinates
+        const fixedCoord = coordinates.reverse()
+        setMapCenter(() => fixedCoord)
+    }
 
-    const multiPolygon = [
-        [
-          [51.51, -0.12],
-          [51.51, -0.13],
-          [51.53, -0.13],
-        ],
-        [
-          [51.51, -0.05],
-          [51.51, -0.07],
-          [51.53, -0.07],
-        ]]
-    
-    
-    const purpleOptions = { color: 'red' }
+    //example function for further use   
+    const fetchInfos = async (countryEn) => {
+        setCountry(() => countryEn )
+    }
 
-useEffect(()=> {
-    fetchBorder()
-    },[])
+    useEffect(()=> {
+        fetchBorder(country)
+        changeCenter()
+        },[country])
+
 
     return (
         <>
-            <Map center={[51.505, -0.09]} zoom={4} scrollWheelZoom={false}
-            style={{width: "1500px", height: "800px"}}
-            onClick={(e) => mapClick(e)}
+            {/* <h3> Map the news for {country} </h3> */}
+            <Map center={mapCenter} zoom={4} scrollWheelZoom={false}
+            style={{width: "100vw", height: "100vh"}}
+             onClick={(e) => fetchCountry(e)}
             >
                 <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-                    // url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
-                    // url="https://{a|b|c}.tile.opentopomap.org/{z}/{x}/{y}.png"	
+                    attribution={
+                        ('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors') + 
+                        (mapStyle === 'topo' ? ' - SRTM | Kartendarstellung: <a href="http://opentopomap.org/">OpenTopoMap</a>' 
+                        : mapStyle === 'hot' ? ' - fond de carte par <a href="https://www.hotosm.org/updates/2013-09-29_a_new_window_on_openstreetmap_data">Yohan Boniface & Humanitarian OSM Team</a> sous <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr">licence domaine public CC0</a> 🏠 hébergé par <a href="https://www.openstreetmap.fr/mentions-legales/">OSM France</a>'
+                        : '')}
+                    url={mapStyle === 'topo' ? "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png" :
+                         mapStyle === 'hot'  ? "http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png" :
+                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        }
                  />
-                 <Polygon pathOptions={purpleOptions} positions={border} />
-                {/* <Marker position={[51.505, -0.09]}> */}
-                <Marker position={[28.59193, 69.064777]}>    
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
+                 <Polygon color={polyColor} positions={border} />
             </Map>
         </>
     )
