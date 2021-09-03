@@ -1,5 +1,10 @@
 ## About the project
-Leaflet is a great library for implementing Open Street Maps but gave me a hard time at the beginning, too. The basics of geo json and the whole cosmos of open street maps is great to discover and to foil. This small component was mainly for my own learning purpose, but I share it here, so maybe it helps for learning some basic usage and overcoming the first obstacles with LeafletJS in React. If you are stucked ask me and check the [quick start guide of LeafletJS](https://leafletjs.com/examples/quick-start/). If you want to contribute, great!
+<p align="center">
+<img src="images/overview.jpg" alt="Map view" width="700" height="350">
+</p>
+
+<p align="center"><i>Leaflet is a great library for implementing Open Street Maps - but gave me a hard time...</i></p> <br><br>
+This small react component was mainly for my own learning purpose, but I share it here, so maybe it helps for learning some basic usage and overcoming the first obstacles with LeafletJS in React. If you are stucked ask me and check the [quick start guide of LeafletJS](https://leafletjs.com/examples/quick-start/). If you want to contribute, great!
 
 #### Built with
 * [ReactJS](http://reactjs.org)
@@ -34,15 +39,24 @@ Get a local copy, give it a try and implement it in your React project
 #### General
 This is a ready to use map component. Clicking on the map gives you the country name and highlights the borders. The countries can be selected via dropdown,too. There are three map styles already included and selectable via dropdown:
 <p align="center">
-<a href="https://github.com/gravitystorm/openstreetmap-carto/">
-         <p align="center">Open Street Map Standard</p>
-         </a>
-<a href="https://github.com/hotosm/HDM-CartoCSS">
-         <p align="center">Humanitarian Map Style</p>
-         </a>
-<a href="https://wiki.openstreetmap.org/wiki/OpenTopoMap">
-         <p align="center">Open Topo Map</p>
-         </a>
+  <img src="images/osm.jpg" alt="Map view" width="400" height="300">
+  <a href="https://github.com/gravitystorm/openstreetmap-carto/">    
+    <p align="center">Open Street Map Standard</p>
+  </a>
+ <br>
+ </p>
+ <p align="center">
+  <img src="images/humanitarian.jpg" alt="Map view" width="450" height="300">  
+  <a href="https://github.com/hotosm/HDM-CartoCSS">
+    <p align="center">Humanitarian Map Style</p>
+  </a>
+<br>
+</p>
+ <p align="center">
+  <img src="images/topos.jpg" alt="Map view" width="450" height="300">
+  <a href="https://wiki.openstreetmap.org/wiki/OpenTopoMap">
+    <p align="center">Open Topo Map</p>
+  </a>
 </p>
 
 #### In deep
