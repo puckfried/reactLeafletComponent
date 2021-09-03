@@ -73,4 +73,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Acknowledgements
 
-* [Nominatim-API](https://developers.google.com/youtube/v3)
+* Search API - [Nominatim-API](https://developers.google.com/youtube/v3)
+* capitals geo.json data from [@Stefie](https://github.com/Stefie)
+* borders geo.json data from [@johan](https://github.com/johan)
