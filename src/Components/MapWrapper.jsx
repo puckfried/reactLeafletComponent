@@ -51,10 +51,9 @@ export default function MapWrapper(props) {
     const changeCenter = (country) => {
         const newCenter = capitals.features.filter(element => element.properties.country === country )
         if (newCenter.length>0){
-            let coordinates = newCenter[0].geometry.coordinates
-            const fixedCoord = coordinates.reverse()
+            let coordinates = [...newCenter[0].geometry.coordinates]
+            let fixedCoord = coordinates.reverse()
             setMapCenter(() => fixedCoord)
-            //Something is wrong here, sometimes countries not centering properly
         }
         else {
             console.log('Something is wrong with centering ', country,' the json found is',newCenter) 
