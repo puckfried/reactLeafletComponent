@@ -6,8 +6,9 @@
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   position: absolute;
+  right: 0%;
   z-index: 999;
-  width: 100vw;
+  width: 80vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -20,4 +21,40 @@
 .header select {
   border: none;
   padding: 5px;
+}
+
+.headCollapsed{
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  position: absolute;
+  right: 1%;
+  top: 0.5%;
+  z-index: 999;
+  /* width: 10vw; */
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.menuIcon{
+  width: 35px;
+  height: 4px;
+  background-color: white;
+  margin: 3px 0;
+}
+
+
+.arrowClose{
+position: absolute;
+left: 0;
+font-size: 3rem;
+background-color: rgba(0, 0, 0, 0.3);
+width: 50px;
+height: 100%;
+}
+
+.arrowClose:hover{
+background-color: white;
+color: black;
+cursor: pointer;
 }
