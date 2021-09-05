@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import countries from '../data/countries.geo.json'
 
-
 export default function Header(props) {
   
     const {country, setCountry, setMapStyle} = props
@@ -38,6 +37,7 @@ export default function Header(props) {
                 <option value="osm">OSM Standard</option>
                 <option value="hot">Huminatarian</option>
                 <option value="topo" selected>Topos Style</option>
+                <option value="choro">Choropleth</option>
             </select>
         </div> :
         <div className="headCollapsed" onClick={handleClick}>
