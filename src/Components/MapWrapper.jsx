@@ -15,9 +15,11 @@ export default function MapWrapper(props) {
     //mapCLick getting the country and coordinates of new border, change these states
     const handleMapClick = async (e) => {
         const countryFetch = await fetchCountryByCoord(e)
-        const latLngs = await fetchAllBorders(countryFetch.address.country, L)
-        setBorder(() => latLngs) 
-        setCountry(() => countryFetch.address.country)
+        if (countryFetch.address) {
+            const latLngs = await fetchAllBorders(countryFetch.address.country, L)
+            setBorder(() => latLngs) 
+            setCountry(() => countryFetch.address.country)
+        }        
     }
 
     //border and the centering should only take place when country is changed
