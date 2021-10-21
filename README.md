@@ -8,7 +8,7 @@ This small react component was mainly for my own learning purpose, but I share i
 
 #### Built with
 * [ReactJS](http://reactjs.org)
-* [LeafletJs](http://leafletjs.com)
+* [React-LeafletJs](https://react-leaflet.js.org/)
 
 ## Getting started
 Get a local copy, give it a try and implement it in your React project
